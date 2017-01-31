@@ -13,5 +13,5 @@ data/
 # Virtualenv
 venv/
 
-# dbs
-*.sqlite
+# data
+*.csv
