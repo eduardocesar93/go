@@ -1,10 +1,10 @@
 class Game:
     def __init__(self):
-        self.black_ranking = None
-        self.white_ranking = None
-        self.result = None
+        self.black_ranking = -1
+        self.white_ranking = -1
+        self.result = 3
         self.valid = True
-        self.komi = None
+        self.komi = 0
         self.size = 19
         self.positions = list()
 
