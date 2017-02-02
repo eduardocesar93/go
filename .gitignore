@@ -6,7 +6,6 @@ __pycache__/
 .idea/
 obj/
 bin/
-data/
 *.config
 *.pyproj
 
@@ -14,4 +13,6 @@ data/
 venv/
 
 # data
+aggregated-data/
+data/
 *.csv

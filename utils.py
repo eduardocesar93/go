@@ -38,7 +38,7 @@ def read_and_fill(game_instance, position, char_buffer, game_str, pointer):
             game_instance.positions.append(['b', ord(game_str[initial_position + 1]) - ord('a'),
                                             ord(game_str[initial_position + 2]) - ord('a')])
             initial_position += 4
-    elif word in ['SZ[', 'KM[', 'WR[', 'BR[', 'RE[']:
+    elif word in ['SZ[', 'KM[', 'WR[', 'BR[', 'HA[', 'RE[']:
         limit_position = position + 2
         while game_str[limit_position] != ']':
             limit_position += 1
@@ -51,6 +51,8 @@ def read_and_fill(game_instance, position, char_buffer, game_str, pointer):
             game_instance.white_ranking = rank(content)
         elif word == 'BR[':
             game_instance.black_ranking = rank(content)
+        elif word == 'HA[':
+            game_instance.handicap = int(content)
         elif word == 'RE[':
             if content[0] == 'b' or content[0] == 'B':
                 game_instance.result = 0
@@ -83,5 +85,8 @@ def convert_game(game_str, filters=False):
             game_instance.valid = False
         elif game_instance.komi > filters['komi']['max'] or \
                 game_instance.komi < filters['komi']['min']:
+            game_instance.valid = False
+        elif game_instance.handicap > filters['handicap']['max'] or \
+                game_instance.handicap < filters['handicap']['min']:
             game_instance.valid = False
     return game_instance
