@@ -14,6 +14,7 @@ def line_plot(label, data, directory, output_name, x_label, y_label, width=11.7,
         output_name += ' [Log]'
         y_label += ' [Log]'
         x_label += ' [Log]'
+        label += ' [Log]'
         data[0] = [math.log10(data[0][i]) for i in range(len(data[0]))]
         data[1] = [math.log10(data[1][i]) for i in range(len(data[1]))]
     ax.set(xlabel=x_label, ylabel=y_label, title=output_name)

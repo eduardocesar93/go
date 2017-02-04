@@ -31,9 +31,8 @@ class Game:
 class Stats:
     def __init__(self):
         self.dynamic = {}
-        self.game = {'game length': 500 * [0],
-                     'win': [0, 0]
-                     }
+        self.game_length = 500 * [0]
+        self.win = [0, 0]
         self.errors = {'game length': 0, 'win': 0}
 
     def update_stats_dynamic(self, game):
@@ -41,21 +40,21 @@ class Stats:
         return False
 
     def update_stats_game(self, game):
-        self.game_length(self, game)
-        self.win(self, game)
+        self.update__game_length(self, game)
+        self.update_win(self, game)
 
-    def game_length(self, game):
+    def update_game_length(self, game):
         length = len(game.positions)
         if length > 0:
-            self.game['game length'][length] += 1
+            self.game_length[length] += 1
         else:
             self.errors['game length'] += 1
 
-    def win(self, game):
+    def update_win(self, game):
         result = game.result
         if result == 0:
-            self.game['win'][0] += 1
+            self.win[0] += 1
         elif result == 1:
-            self.game['white'][1] += 1
+            self.win[1] += 1
         else:
             self.errors['win'] += 1
