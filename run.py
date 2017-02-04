@@ -46,7 +46,7 @@ def run(input_dir, output):
             index += 1
             print_progress_bar(index, total_files, prefix='Processing Progress:', suffix='Complete', length=40)
     final_date = datetime.datetime.now()
-    data_lengths = [[i for i in range(len(data_lengths))], stats.game_length]
+    data_lengths = [[i for i in range(len(stats.game_length))], stats.game_length]
     plot.line_plot('Game Lengths', data_lengths, results_dir, 'Game Lengths', 'Length', 'Frequency', 30, 20)
     plot.line_plot('Game Lengths', data_lengths, results_dir, 'Game Lengths', 'Length', 'Frequency', 30, 20, log=True)
     plot.save_scatter_csv(data, results_dir, 'Game Lengths', labels=['Length', 'Frequency'])
