@@ -43,13 +43,15 @@ def run(input_dir, output):
         print_progress_bar(index, total_files, prefix='Processing Progress:', suffix='Complete', length=40)
         for row in reader:
             game = Game.row_to_game(row)
+            stats.update_stats_game(game)
             index += 1
             print_progress_bar(index, total_files, prefix='Processing Progress:', suffix='Complete', length=40)
     final_date = datetime.datetime.now()
     data_lengths = [[i for i in range(len(stats.game_length))], stats.game_length]
-    plot.line_plot('Game Lengths', data_lengths, results_dir, 'Game Lengths', 'Length', 'Frequency', 30, 20)
-    plot.line_plot('Game Lengths', data_lengths, results_dir, 'Game Lengths', 'Length', 'Frequency', 30, 20, log=True)
-    plot.save_scatter_csv(data, results_dir, 'Game Lengths', labels=['Length', 'Frequency'])
+    plot.save_scatter_csv(data_lengths, results_dir, 'Game Lengths', labels=['Length', 'Frequency'])
+    plot.scatter_plot('Game Lengths', data_lengths, results_dir, 'Game Lengths', 'Length', 'Frequency', 30, 20)
+    plot.scatter_plot('Game Lengths', data_lengths, results_dir, 'Game Lengths', 'Length', 'Frequency', 30, 20,
+                      log=True)
     print('\nTotal Time: {0}\n'.format(final_date - start_time) +
           'Errors (game length): {0}\n'.format(stats.errors['game length']) +
           'Errors (win): {0}\n'.format(stats.errors['win']))

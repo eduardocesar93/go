@@ -20,12 +20,14 @@ def rank(rank_str):
 
 def read_and_fill(game_instance, position, char_buffer, game_str, pointer):
     word = char_buffer[(pointer - 2) % 3] + char_buffer[(pointer - 1) % 3] + char_buffer[pointer]
-    if word == ';b[' or word == ';B[':
-        game_instance.positions.append(['b', ord(game_str[position + 1]) - ord('a'),
-                                        ord(game_str[position + 2]) - ord('a')])
-    elif word == ';w[' or word == ';W[':
-        game_instance.positions.append(['w', ord(game_str[position + 1]) - ord('a'),
-                                        ord(game_str[position + 2]) - ord('a')])
+    if word == ';B[':
+        if game_str[position + 1] != ']':
+            game_instance.positions.append(['b', ord(game_str[position + 1]) - ord('a'),
+                                            ord(game_str[position + 2]) - ord('a')])
+    elif word == ';W[':
+        if game_str[position + 1] != ']':
+            game_instance.positions.append(['w', ord(game_str[position + 1]) - ord('a'),
+                                            ord(game_str[position + 2]) - ord('a')])
     elif word == 'AB[':
         initial_position = position
         while game_str[initial_position] == '[':
