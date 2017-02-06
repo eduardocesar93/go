@@ -1,5 +1,6 @@
 import unittest
 import utils
+import game
 
 games = ['(;GM[1]FF[4]SZ[19]PW[supertjc]WR[6d]PB[YoungPro]BR[6d]DT[2016-07-01]PC[The KGS Go Server at \
 http://www.gokgs.com/]KM[6.50]RE[W+Time]RU[Japanese]CA[UTF-8]ST[2]AP[CGoban:3]TM[73]OT[1/6 Canadian]AB\
@@ -32,17 +33,30 @@ class TestUtilFunctions(unittest.TestCase):
 
 class TestGameMethods(unittest.TestCase):
     def test_to_row(self):
-        game = utils.convert_game(games[0])
-        row = game.to_row()
+        game_instance = utils.convert_game(games[0])
+        row = game_instance.to_row()
         self.assertTrue(len(row) > 0)
-        self.assertEqual(len(row), 7)
+        self.assertEqual(len(row), 8)
         self.assertEqual(row[0], utils.rank('6d'))
         self.assertEqual(row[1], utils.rank('6d'))
         self.assertEqual(row[2], 1)
         self.assertTrue(row[3])
         self.assertEqual(row[4], 6.5)
         self.assertEqual(row[5], 19)
-        self.assertTrue(len(row[6]) > 0)
+        self.assertTrue(len(row[7]) > 0)
+
+    def test_row_to_game(self):
+        game_instance = utils.convert_game(games[0])
+        row = game_instance.to_row()
+        converted_game = game.Game.row_to_game(row)
+        self.assertEqual(game_instance.positions, converted_game.positions)
+        self.assertEqual(game_instance.handicap, converted_game.handicap)
+        self.assertEqual(game_instance.black_ranking, converted_game.black_ranking)
+        self.assertEqual(game_instance.white_ranking, converted_game.white_ranking)
+        self.assertEqual(game_instance.komi, converted_game.komi)
+        self.assertEqual(game_instance.valid, converted_game.valid)
+        self.assertEqual(game_instance.handicap, converted_game.handicap)
+
 
 if __name__ == '__main__':
     unittest.main()
