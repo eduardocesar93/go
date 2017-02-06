@@ -35,7 +35,8 @@ class Game:
         positions = row[7].split('.')
         for current_position_str in positions:
             current_position = current_position_str.split('-')
-            game.positions.append([current_position[0], int(current_position[1]), int(current_position[2])])
+            if len(current_position) == 3:
+                game.positions.append([current_position[0], int(current_position[1]), int(current_position[2])])
         game.states = list()
         return game
 

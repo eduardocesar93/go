@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import pylab
 import csv
+import math
 import numpy as np
 from scipy import stats
 
@@ -18,12 +19,15 @@ def scatter_plot(label, data, directory, output_name, x_label, y_label, width=11
         y_log = []
         for i in range(len(data[0])):
             if data[0][i] != 0 and data[1][i] != 0:
-                x_log.append(data[0][i])
-                y_log.append(data[1][i])
+                x_log.append(math.log10(data[0][i]))
+                y_log.append(math.log10(data[1][i]))
         data[0] = x_log
         data[1] = y_log
     ax.set(xlabel=x_label, ylabel=y_label, title=output_name)
     plt.scatter(data[0], data[1], color='b', label=label)
+    min_x = min(data[0])
+    max_x = max(data[0])
+    plt.xlim(min_x, max_x)
     plt.grid(True)
     if linear_regression:
         slope, intercept, r_value, p_value, std_err = stats.linregress(data[0], data[1])
@@ -71,7 +75,3 @@ def save_matrix_csv(data, directory, output_name, labels=False):
         for i in range(len(data)):
             for j in range(len(data[i])):
                 writer.writerow([data[i][j], data[i][j]])
-
-
-
-
