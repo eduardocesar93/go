@@ -1,5 +1,4 @@
 import matplotlib.pyplot as plt
-import pylab
 import csv
 import math
 import numpy as np
@@ -37,8 +36,8 @@ def scatter_plot(label, data, directory, output_name, x_label, y_label, width=11
                  + 'r-value: {0}'.format(round(r_value, 4)) + '\n'
                  + 'p-value: {0}'.format(round(p_value, 4)), ha='center', va='center',
                  transform=ax.transAxes)
-    pylab.savefig('{0}/{1}.png'.format(directory, output_name))
-    pylab.clf()
+    plt.savefig('{0}/{1}.png'.format(directory, output_name))
+    plt.clf()
     plt.close(fig)
 
 
@@ -53,8 +52,8 @@ def colormap(data, directory, output_name, x_label, y_label, width=11.7, height=
     masked_array = np.ma.array(plot_data)
     mesh = ax.pcolormesh(masked_array, cmap='rainbow', vmin=0, vmax=max_value)
     plt.colorbar(mesh, ax=ax)
-    pylab.savefig("{0}/{1}.png".format(directory, output_name), bbox_inches='tight')
-    pylab.clf()
+    plt.savefig("{0}/{1}.png".format(directory, output_name), bbox_inches='tight')
+    plt.clf()
     plt.close(fig)
 
 
