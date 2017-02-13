@@ -92,3 +92,15 @@ def convert_game(game_str, filters=False):
                 game_instance.handicap < filters['handicap']['min']:
             game_instance.valid = False
     return game_instance
+
+def matrix_value(state, pos):
+    if pos[1] in [0, 18] or pos[2] in [0. 18]:
+        return -1
+    else:
+        x = pos[1]
+        y = pos[2]
+        matrix = [[state[x - 1][y - 1], state[x - 1][y], state[x - 1][y + 1]],
+                  [state[x][y - 1],     pos[0],          state[x][y + 1]],
+                  [state[x + 1][y - 1], state[x + 1][y], state[x + 1][y + 1]]]
+
+def metric_base_2(matrix):

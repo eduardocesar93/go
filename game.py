@@ -49,6 +49,8 @@ class Game:
     def get_next_position(self, pos):
         next_position = self.states[len(self.states) - 1]
         number = 0
+        position = -1
+        matrix_position = utils.matrix_value(self.states[len(self.states) - 1], pos)
         if pos[0] == 'b':
             number = 1
         else:
@@ -58,7 +60,7 @@ class Game:
         finish = False
         if len(self.states) == len(self.positions) + 1:
             finish = True
-        return captures, finish
+        return captures, finish, matrix_position
 
 class Stats:
     def __init__(self):
@@ -68,7 +70,10 @@ class Stats:
         self.errors = {'game length': 0, 'win': 0}
         self.captures = 500 * [0]
         self.times_capture = 500 * [0]
+        self.transition_matrix = list()
         self.last_capture = -1
+        for i in range(3 ** 9):
+            self.transition_matrix.append(3 ** 9 * [0])
 
     def update_stats_dynamic(self, game, captures):
         position = len(game.states)
