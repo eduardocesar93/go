@@ -57,6 +57,69 @@ class TestGameMethods(unittest.TestCase):
         self.assertEqual(game_instance.valid, converted_game.valid)
         self.assertEqual(game_instance.handicap, converted_game.handicap)
 
+    def test_update_positions(self):
+        state = [
+            [0, 1, 1 ,1 ,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 1],
+            [0, 1, 2 ,1 ,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 1, 0 ,1 ,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0 ,0 ,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0 ,0 ,0, 0, 2, 2, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0 ,0 ,0, 0, 2, 1, 1, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0 ,0 ,0, 0, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0 ,0 ,0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0],
+            [0, 0, 0 ,0 ,0, 0, 0, 0, 0, 0, 0, 1, 2, 1, 0, 0, 0, 0, 0],
+            [2, 0, 0 ,0 ,0, 0, 0, 0, 0, 0, 0, 1, 2, 1, 1, 0, 0, 0, 0],
+            [2, 1, 2 ,0 ,0, 0, 0, 0, 0, 0, 1, 2, 0, 2, 1, 0, 0, 1, 1],
+            [2, 1, 2 ,0 ,0, 0, 0, 0, 0, 0, 0, 1, 2, 1, 0, 0, 0, 0, 2],
+            [2, 1, 2 ,0 ,0, 0, 0, 0, 0, 0, 0, 1, 2, 1, 0, 0, 0, 1, 1],
+            [2, 1, 2 ,0 ,0, 0, 0, 0, 0, 0, 0, 1, 2, 1, 0, 0, 0, 0, 0],
+            [2, 1, 2 ,0 ,0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+            [2, 1, 2 ,0 ,0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [2, 1, 2 ,0 ,0, 0, 0, 0, 0, 1, 2, 1, 0, 0, 0, 0, 1, 1, 1],
+            [2, 1, 2 ,0 ,0, 0, 0, 0, 0, 1, 2, 1, 0, 0, 0, 0, 1, 2, 1],
+            [0, 1, 2 ,0 ,0, 0, 0, 0, 0, 1, 2, 1, 0, 0, 0, 0, 1, 0, 0]]
+        deleted_1 = game.update_positions(state, 1, 2, 2)
+        deleted_2 = game.update_positions(state, 2, 18, 0)
+        deleted_3 = game.update_positions(state, 2, 4, 8)
+        deleted_4 = game.update_positions(state, 2, 1, 18)
+        deleted_5 = game.update_positions(state, 1, 10, 12)
+        deleted_6 = game.update_positions(state, 1, 15, 10)
+        deleted_7 = game.update_positions(state, 1, 11, 17)
+        self.assertEqual(state[2][2], 1)
+        self.assertEqual(state[1][2], 0)
+        self.assertEqual(state[1][1], 1)
+        self.assertEqual(state[18][0], 2)
+        self.assertEqual(state[18][1], 1)
+        self.assertEqual(state[10][1], 1)
+        self.assertEqual(state[4][8], 2)
+        self.assertEqual(state[5][8], 0)
+        self.assertEqual(state[5][9], 0)
+        self.assertEqual(state[1][18], 2)
+        self.assertEqual(state[10][12], 1)
+        self.assertEqual(state[10][11], 0)
+        self.assertEqual(state[10][13], 0)
+        self.assertEqual(state[9][12], 0)
+        self.assertEqual(state[11][12], 0)
+        self.assertEqual(state[15][10], 1)
+        self.assertEqual(state[17][10], 0)
+        self.assertEqual(state[18][10], 0)
+        self.assertEqual(state[11][17], 1)
+        self.assertEqual(state[11][18], 0)
+        deleted_8 = game.update_positions(state, 1, 18, 18)
+        self.assertEqual(state[18][17], 0)
+        self.assertEqual(state[17][17], 2)
+        deleted_9 = game.update_positions(state, 1, 18, 17)
+        self.assertEqual(state[17][17], 0)
+        self.assertEqual(deleted_1, 1)
+        self.assertEqual(deleted_2, 0)
+        self.assertEqual(deleted_3, 3)
+        self.assertEqual(deleted_4, 1)
+        self.assertEqual(deleted_5, 7)
+        self.assertEqual(deleted_6, 3)
+        self.assertEqual(deleted_7, 1)
+        self.assertEqual(deleted_8, 0)
+        self.assertEqual(deleted_9, 1)
+
 
 if __name__ == '__main__':
     unittest.main()
