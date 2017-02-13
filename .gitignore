@@ -15,4 +15,5 @@ venv/
 # data
 aggregated-data/
 data/
+results/
 *.csv
