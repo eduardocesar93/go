@@ -94,13 +94,77 @@ def convert_game(game_str, filters=False):
     return game_instance
 
 def matrix_value(state, pos):
-    if pos[1] in [0, 18] or pos[2] in [0. 18]:
+    if pos[1] in [0, 18] or pos[2] in [0, 18]:
         return -1
     else:
+        position_value = 0
+        if pos[0] == 'b':
+            position_value = 1
+        elif pos[0] == 'w':
+            position_value = 2
         x = pos[1]
         y = pos[2]
         matrix = [[state[x - 1][y - 1], state[x - 1][y], state[x - 1][y + 1]],
-                  [state[x][y - 1],     pos[0],          state[x][y + 1]],
+                  [state[x][y - 1]    , position_value , state[x][y + 1]],
                   [state[x + 1][y - 1], state[x + 1][y], state[x + 1][y + 1]]]
+    return process_value(matrix)
 
-def metric_base_2(matrix):
+def process_value(matrix):
+    return_value = 10 ** 10
+    for i in range(16):
+        new_value = metric_base_3(matrix)
+        if new_value < return_value:
+            return_value = new_value
+        if i in [3, 7, 11]:
+            change_colors(matrix)
+        if i == 7:
+            invertion(matrix, horizontal=True)
+        rotate(matrix)
+    return return_value
+
+def metric_base_3(matrix):
+    return matrix[0][0] * 3 ** 0 + matrix[0][1] * 3 ** 1 + matrix[0][2] * 3 ** 2 +\
+           matrix[1][0] * 3 ** 3 + matrix[1][1] * 3 ** 4 + matrix[1][2] * 3 ** 5 +\
+           matrix[2][0] * 3 ** 6 + matrix[2][1] * 3 ** 7 + matrix[2][2] * 3 ** 8
+
+def rotate(matrix):
+    initial_value = matrix[0][0]
+    matrix[0][0] = matrix[2][0]
+    matrix[2][0] = matrix[2][2]
+    matrix[2][2] = matrix[0][2]
+    matrix[0][2] = initial_value
+    initial_value = matrix[0][1]
+    matrix[0][1] = matrix[1][0]
+    matrix[1][0] = matrix[2][1]
+    matrix[2][1] = matrix[1][2]
+    matrix[1][2] = initial_value
+
+def invertion(matrix, horizontal=False, vertical=False):
+    if horizontal:
+        temp = matrix[0][0]
+        matrix[0][0] = matrix[2][0]
+        matrix[2][0] = temp
+        temp = matrix[0][1]
+        matrix[0][1] = matrix[2][1]
+        matrix[2][1] = temp
+        temp = matrix[0][2]
+        matrix[0][2] = matrix[2][2]
+        matrix[2][2] = temp
+    if vertical:
+        temp = matrix[0][0]
+        matrix[0][0] = matrix[0][2]
+        matrix[0][2] = temp
+        temp = matrix[1][0]
+        matrix[1][0] = matrix[1][2]
+        matrix[1][2] = temp
+        temp = matrix[2][0]
+        matrix[2][0] = matrix[2][2]
+        matrix[2][2] = temp
+
+def change_colors(matrix):
+    for i in range(3):
+        for j in range(3):
+            if matrix[i][j] == 1:
+                matrix[i][j] = 2
+            elif matrix[i][j] == 2:
+                matrix[i][j] = 1

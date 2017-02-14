@@ -120,6 +120,69 @@ class TestGameMethods(unittest.TestCase):
         self.assertEqual(deleted_8, 0)
         self.assertEqual(deleted_9, 1)
 
+    def test_invertion(self):
+        matrix_1 = [[1, 1, 0],
+                    [1, 2, 0],
+                    [0, 1, 1]]
+        matrix_2 = [[2, 1, 0],
+                    [0, 1, 1],
+                    [0, 2, 2]]
+        utils.invertion(matrix_1, horizontal=True)
+        utils.invertion(matrix_2, horizontal=True)
+        matrix_1_result = [[0, 1, 1],
+                           [1, 2, 0],
+                           [1, 1, 0]]
+        matrix_2_result = [[0, 2, 2],
+                           [0, 1, 1],
+                           [2, 1, 0]]
+        self.assertEqual(matrix_1, matrix_1_result)
+        self.assertEqual(matrix_2, matrix_2_result)
+
+    def test_rotate(self):
+        matrix_1 = [[1, 1, 0],
+                    [1, 2, 0],
+                    [0, 1, 1]]
+        matrix_2 = [[2, 1, 0],
+                    [0, 1, 1],
+                    [0, 2, 2]]
+        utils.rotate(matrix_1)
+        utils.rotate(matrix_2)
+        matrix_1_result = [[0, 1, 1],
+                           [1, 2, 1],
+                           [1, 0, 0]]
+        matrix_2_result = [[0, 0, 2],
+                           [2, 1, 1],
+                           [2, 1, 0]]
+        self.assertEqual(matrix_1, matrix_1_result)
+        self.assertEqual(matrix_2, matrix_2_result)
+
+    def test_change_color(self):
+        matrix_1 = [[1, 1, 0],
+                    [1, 2, 0],
+                    [0, 1, 1]]
+        matrix_2 = [[2, 1, 0],
+                    [0, 1, 1],
+                    [0, 2, 2]]
+        utils.change_colors(matrix_1)
+        utils.change_colors(matrix_2)
+        matrix_1_result = [[2, 2, 0],
+                           [2, 1, 0],
+                           [0, 2, 2]]
+        matrix_2_result = [[1, 2, 0],
+                           [0, 2, 2],
+                           [0, 1, 1]]
+        self.assertEqual(matrix_1, matrix_1_result)
+        self.assertEqual(matrix_2, matrix_2_result)
+
+    def test_process_value(self):
+        matrix_1 = [[0, 0, 0],
+                    [0, 2, 1],
+                    [1, 1, 2]]
+        matrix_2 = [[0, 1, 0],
+                    [0, 1, 2],
+                    [0, 0, 0]]
+        self.assertEqual(utils.process_value(matrix_1), 160)
+        self.assertEqual(utils.process_value(matrix_2), 114)
 
 if __name__ == '__main__':
     unittest.main()

@@ -1,3 +1,6 @@
+import utils
+
+
 class Game:
     def __init__(self):
         self.black_ranking = -1
@@ -53,7 +56,7 @@ class Game:
         matrix_position = utils.matrix_value(self.states[len(self.states) - 1], pos)
         if pos[0] == 'b':
             number = 1
-        else:
+        elif pos[0] == 'w':
             number = 2
         captures = update_positions(next_position, number, pos[1], pos[2])
         self.states.append(next_position)
@@ -66,6 +69,7 @@ class Stats:
     def __init__(self):
         self.dynamic = {}
         self.game_length = 500 * [0]
+        self.matrix_values = 3**9 * [0]
         self.win = [0, 0]
         self.errors = {'game length': 0, 'win': 0}
         self.captures = 500 * [0]
@@ -75,7 +79,7 @@ class Stats:
         for i in range(3 ** 9):
             self.transition_matrix.append(3 ** 9 * [0])
 
-    def update_stats_dynamic(self, game, captures):
+    def update_stats_dynamic(self, game, captures, matrix_value):
         position = len(game.states)
         if captures > 0:
             if self.last_capture == -1:
@@ -83,6 +87,7 @@ class Stats:
             else:
                 self.times_capture[position - self.last_capture] += 1
                 self.last_capture = position
+        self.matrix_values[matrix_value] += 1
         self.captures[position] += 1
 
     def update_stats_game(self, game):
