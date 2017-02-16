@@ -52,7 +52,6 @@ class Game:
     def get_next_position(self, pos):
         next_position = self.states[len(self.states) - 1]
         number = 0
-        position = -1
         matrix_position = utils.matrix_value(self.states[len(self.states) - 1], pos)
         if pos[0] == 'b':
             number = 1
@@ -64,6 +63,7 @@ class Game:
         if len(self.states) == len(self.positions) + 1:
             finish = True
         return captures, finish, matrix_position
+
 
 class Stats:
     def __init__(self):
@@ -110,8 +110,8 @@ class Stats:
         else:
             self.errors['win'] += 1
 
+
 def update_positions(positions, number, x, y):
-    visited = list()
     positions[x][y] = number
     visited = list()
     number_deleted = 0
@@ -134,34 +134,31 @@ def update_positions(positions, number, x, y):
         number_deleted += clean(positions, surrounded, visited)
     return number_deleted
 
+
 def visit(positions, surrounded, number, visited, x, y):
     if visited[x][y]:
         return True
     visited[x][y] = True
     surrounded_flag = True
     if x > 0 and positions[x - 1][y] == 0:
-        surrounded_flag = False
         return False
     elif x > 0 and positions[x - 1][y] != number:
         return_flag = visit(positions, surrounded, number, visited, x - 1, y)
         if not return_flag:
             return False
     if x < 18 and positions[x + 1][y] == 0:
-        surrounded_flag = False
         return False
     elif x < 18 and positions[x + 1][y] != number:
         return_flag = visit(positions, surrounded, number, visited, x + 1, y)
         if not return_flag:
             return False
     if y > 0 and positions[x][y - 1] == 0:
-        surrounded_flag = False
         return False
     elif y > 0 and positions[x][y - 1] != number:
         return_flag = visit(positions, surrounded, number, visited, x, y - 1)
         if not return_flag:
             return False
     if y < 18 and positions[x][y + 1] == 0:
-        surrounded_flag = False
         return False
     elif y < 18 and positions[x][y + 1] != number:
         return_flag = visit(positions, surrounded, number, visited, x, y + 1)
@@ -169,6 +166,7 @@ def visit(positions, surrounded, number, visited, x, y):
             return False
     surrounded[x][y] = surrounded_flag
     return True
+
 
 def clean(positions, surrounded, visited):
     delete = True

@@ -66,27 +66,26 @@ def run(input_dir, output):
                       linear_regression=False, log=True)
 
     captures = [[i for i in range(len(stats.captures))], stats.captures]
-    plot.save_scatter_csv(captures, results_dir, 'Distribuition of Captures', labels=['Time', 'Frequency'])
-    plot.scatter_plot('Distribuition of Captures', captures, results_dir, 'Distribuition of Captures', 'Time',
-        'Frequency', 30, 20, linear_regression=False)
-    plot.scatter_plot('Distribuition of Captures', captures, results_dir, 'Distribuition of Captures', 'Time',
-        'Frequency', 30, 20, linear_regression=False, log=True)
+    plot.save_scatter_csv(captures, results_dir, 'Distribution of Captures', labels=['Time', 'Frequency'])
+    plot.scatter_plot('Distribution of Captures', captures, results_dir, 'Distribution of Captures', 'Time',
+                      'Frequency', 30, 20, linear_regression=False)
+    plot.scatter_plot('Distribution of Captures', captures, results_dir, 'Distribution of Captures', 'Time',
+                      'Frequency', 30, 20, linear_regression=False, log=True)
 
     times_capture = [[i for i in range(len(stats.times_capture))], stats.times_capture]
     plot.save_scatter_csv(times_capture, results_dir, 'Capture Intervals', labels=['Time', 'Frequency'])
     plot.scatter_plot('Capture Intervals', times_capture, results_dir, 'Capture Intervals', 'Interval',
-        'Frequency', 30, 20, linear_regression=False)
+                      'Frequency', 30, 20, linear_regression=False)
     plot.scatter_plot('Capture Intervals', times_capture, results_dir, 'Capture Intervals', 'Interval',
-        'Frequency', 30, 20, linear_regression=False, log=True)
+                      'Frequency', 30, 20, linear_regression=False, log=True)
 
     matrix_values = [[i for i in range(len(stats.matrix_values))], stats.matrix_values]
     plot.save_scatter_csv(matrix_values, results_dir, 'Positions', labels=['Value', 'Frequency'])
-    matrix_values.sort()
+    matrix_values[1].sort(reverse=True)
     plot.scatter_plot('Positions', matrix_values, results_dir, 'Positions', 'Position',
-        'Frequency', 30, 20, linear_regression=False)
+                      'Frequency', 30, 20, linear_regression=False)
     plot.scatter_plot('Positions', matrix_values, results_dir, 'Positions', 'Position',
-        'Frequency', 30, 20, linear_regression=True, log=True)
-
+                      'Frequency', 30, 20, linear_regression=True, log=True)
 
     print('\nTotal Time: {0}\n'.format(final_date - start_time) +
           'Errors (game length): {0}\n'.format(stats.errors['game length']) +

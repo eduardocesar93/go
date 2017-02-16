@@ -93,6 +93,7 @@ def convert_game(game_str, filters=False):
             game_instance.valid = False
     return game_instance
 
+
 def matrix_value(state, pos):
     if pos[1] in [0, 18] or pos[2] in [0, 18]:
         return -1
@@ -105,9 +106,10 @@ def matrix_value(state, pos):
         x = pos[1]
         y = pos[2]
         matrix = [[state[x - 1][y - 1], state[x - 1][y], state[x - 1][y + 1]],
-                  [state[x][y - 1]    , position_value , state[x][y + 1]],
+                  [state[x][y - 1],     position_value,  state[x][y + 1]],
                   [state[x + 1][y - 1], state[x + 1][y], state[x + 1][y + 1]]]
     return process_value(matrix)
+
 
 def process_value(matrix):
     return_value = 10 ** 10
@@ -122,10 +124,12 @@ def process_value(matrix):
         rotate(matrix)
     return return_value
 
+
 def metric_base_3(matrix):
     return matrix[0][0] * 3 ** 0 + matrix[0][1] * 3 ** 1 + matrix[0][2] * 3 ** 2 +\
            matrix[1][0] * 3 ** 3 + matrix[1][1] * 3 ** 4 + matrix[1][2] * 3 ** 5 +\
            matrix[2][0] * 3 ** 6 + matrix[2][1] * 3 ** 7 + matrix[2][2] * 3 ** 8
+
 
 def rotate(matrix):
     initial_value = matrix[0][0]
@@ -138,6 +142,7 @@ def rotate(matrix):
     matrix[1][0] = matrix[2][1]
     matrix[2][1] = matrix[1][2]
     matrix[1][2] = initial_value
+
 
 def invertion(matrix, horizontal=False, vertical=False):
     if horizontal:
@@ -160,6 +165,7 @@ def invertion(matrix, horizontal=False, vertical=False):
         temp = matrix[2][0]
         matrix[2][0] = matrix[2][2]
         matrix[2][2] = temp
+
 
 def change_colors(matrix):
     for i in range(3):
