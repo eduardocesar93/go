@@ -44,6 +44,8 @@ def run(input_dir, output):
         for row in reader:
             game = Game.row_to_game(row)
             position_index = 0
+            if len(game.positions) == 0:
+                continue
             while True:
                 captures, finish, matrix_value = game.get_next_position(game.positions[position_index])
                 stats.update_stats_dynamic(game, captures, matrix_value)
