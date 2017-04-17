@@ -44,15 +44,16 @@ def scatter_plot(label, data, directory, output_name, x_label, y_label, width=11
 def colormap(data, directory, output_name, x_label, y_label, width=11.7, height=8.27, percentile=False):
     fig, ax = plt.subplots()
     fig.set_size_inches(width, height)
-    max_value = 0
-    plot_data = data.values
+    percentile_max = 100
     if percentile:
-        max_value = np.percentile(plot_data, percentile)
+        percentile_max = percentile
+    # max_value = np.percentile(data, percentile_max)
     ax.set(xlabel=x_label, ylabel=y_label, title=output_name)
-    masked_array = np.ma.array(plot_data)
-    mesh = ax.pcolormesh(masked_array, cmap='rainbow', vmin=0, vmax=max_value)
+    # mesh = ax.imshow(data, cmap='rainbow', vmin=0, vmax=max_value)
+    mesh = ax.imshow(data, cmap='Greys', vmin=0, vmax=1)
     plt.colorbar(mesh, ax=ax)
-    plt.savefig("{0}/{1}.png".format(directory, output_name), bbox_inches='tight')
+    plt.show()
+    # plt.savefig('{0}/{1}.png'.format(directory, output_name))
     plt.clf()
     plt.close(fig)
 
@@ -72,5 +73,7 @@ def save_matrix_csv(data, directory, output_name, labels=False):
         if labels:
             writer.writerow(labels)
         for i in range(len(data)):
+            row = []
             for j in range(len(data[i])):
-                writer.writerow([data[i][j], data[i][j]])
+                row.append(data[i][j])
+            writer.writerow(row)

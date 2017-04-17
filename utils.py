@@ -1,6 +1,8 @@
 import game
 
 RESULTS = {'black': 0, 'white': 1, 'tie': 2, 'undefined': 3}
+MEMORY = True
+POSITION_VALUES = [-1] * 3**9
 
 
 def rank(rank_str):
@@ -94,6 +96,23 @@ def convert_game(game_str, filters=False):
     return game_instance
 
 
+def is_valid(game_instance, filters):
+    if game_instance.size != 19:
+        game_instance.valid = False
+    elif len(game_instance.positions) > filters['positions']['max'] or \
+            len(game_instance.positions) < filters['positions']['min']:
+        game_instance.valid = False
+    elif game_instance.white_ranking not in filters['rank'] or game_instance.black_ranking not in filters['rank']:
+        game_instance.valid = False
+    elif game_instance.result not in filters['result']:
+        game_instance.valid = False
+    elif game_instance.komi > filters['komi']['max'] or game_instance.komi < filters['komi']['min']:
+        game_instance.valid = False
+    elif game_instance.handicap > filters['handicap']['max'] or game_instance.handicap < filters['handicap']['min']:
+        game_instance.valid = False
+    return game_instance.valid
+
+
 def matrix_value(state, pos):
     if pos[1] in [0, 18] or pos[2] in [0, 18]:
         return -1
@@ -113,6 +132,9 @@ def matrix_value(state, pos):
 
 def process_value(matrix):
     return_value = 10 ** 10
+    value_matrix = metric_base_3(matrix)
+    if MEMORY and POSITION_VALUES[value_matrix] != -1:
+        return POSITION_VALUES[value_matrix]
     for i in range(16):
         new_value = metric_base_3(matrix)
         if new_value < return_value:
@@ -120,8 +142,9 @@ def process_value(matrix):
         if i in [3, 7, 11]:
             change_colors(matrix)
         if i == 7:
-            invertion(matrix, horizontal=True)
+            invert(matrix, horizontal=True)
         rotate(matrix)
+    POSITION_VALUES[value_matrix] = return_value
     return return_value
 
 
@@ -144,7 +167,7 @@ def rotate(matrix):
     matrix[1][2] = initial_value
 
 
-def invertion(matrix, horizontal=False, vertical=False):
+def invert(matrix, horizontal=False, vertical=False):
     if horizontal:
         temp = matrix[0][0]
         matrix[0][0] = matrix[2][0]
@@ -174,3 +197,21 @@ def change_colors(matrix):
                 matrix[i][j] = 2
             elif matrix[i][j] == 2:
                 matrix[i][j] = 1
+
+
+def clean_matrix(matrix, valid_list):
+    new_matrix = []
+    for i in valid_list:
+        new_list = list()
+        for j in valid_list:
+            new_list.append(matrix[i][j])
+        new_matrix.append(new_list)
+    return new_matrix
+
+
+def order_matrix(matrix):
+    for i in range(len(matrix)):
+        new_list = matrix[i]
+        new_list.sort(reverse=True)
+        matrix[i] = new_list
+    return matrix

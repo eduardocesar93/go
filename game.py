@@ -76,6 +76,7 @@ class Stats:
         self.times_capture = 500 * [0]
         self.transition_matrix = list()
         self.last_capture = -1
+        self.last_position_matrix = -1
         for i in range(3 ** 9):
             self.transition_matrix.append(3 ** 9 * [0])
 
@@ -87,8 +88,13 @@ class Stats:
             else:
                 self.times_capture[position - self.last_capture] += 1
                 self.last_capture = position
-        self.matrix_values[matrix_value] += 1
-        self.captures[position] += 1
+        if self.last_position_matrix != -1 and matrix_value != -1:
+            self.transition_matrix[self.last_position_matrix][matrix_value] += 1
+        self.last_position_matrix = matrix_value
+        if matrix_value != -1:
+            self.matrix_values[matrix_value] += 1
+        if position < 500:
+            self.captures[position] += 1
 
     def update_stats_game(self, game):
         self.update_game_length(game)
@@ -96,7 +102,7 @@ class Stats:
 
     def update_game_length(self, game):
         length = len(game.positions)
-        if length > 0:
+        if 0 < length < 500:
             self.game_length[length] += 1
         else:
             self.errors['game length'] += 1
@@ -190,3 +196,44 @@ def clean(positions, surrounded, visited):
                 visited[i][j] = False
                 surrounded[i][j] = False
     return number_deleted
+
+
+def is_surrounded(surrounded, visited):
+    delete = True
+    for i in range(19):
+        for j in range(19):
+            if visited[i][j] != surrounded[i][j]:
+                delete = False
+                break
+    if delete:
+        return True
+    else:
+        return False
+
+
+def nesting_two(row_1, row_2, lim):
+    count_row_1 = 0
+    count_row_2 = 0
+    inter_count = 0
+    for index in range(lim):
+        if row_1[index] > 0:
+            count_row_1 += 1
+        if row_2[index] > 0:
+            count_row_2 += 1
+        if row_1[index] > 0 and row_2[index] > 0:
+            inter_count += 1
+    if count_row_1 == 0 or count_row_2 == 0:
+        return 0
+    if count_row_1 < count_row_2:
+        return inter_count / count_row_1
+    else:
+        return inter_count / count_row_2
+
+
+def nesting(matrix, lim):
+    average_nesting = 0
+    for i in range(lim):
+        for j in range(lim):
+            average_nesting += nesting_two(matrix[i], matrix[j], lim)
+    return average_nesting / (lim * lim)
+
