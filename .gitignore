@@ -8,11 +8,12 @@ obj/
 bin/
 *.config
 *.pyproj
+.vscode/
 
-# Virtualenv
+# Vsirtualenv
 venv/
 
-# data
+# Data
 aggregated-data/
 data/
 results/

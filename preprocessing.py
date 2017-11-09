@@ -27,7 +27,8 @@ def run(input_dir, output):
     total_files = len(list_paths)
     total_valid = 0
     index = 0
-    print_progress_bar(index, total_files, prefix='Pre-Processing:', suffix='Complete', length=40)
+    print_progress_bar(index, total_files, prefix='Pre-Processing:',
+                       suffix='Complete', length=40)
     with open('aggregated-data/{0}.csv'.format(output), 'w') as csv_file:
         writer = csv.writer(csv_file, lineterminator='\n')
         for file_path in list_paths:
@@ -38,7 +39,8 @@ def run(input_dir, output):
                     writer.writerow(game_instance.to_row())
                     total_valid += 1
                 index += 1
-                print_progress_bar(index, total_files, prefix='Pre-Processing:', suffix='Complete', length=40)
+                print_progress_bar(index, total_files, prefix='Pre-Processing:',
+                                   suffix='Complete', length=40)
     final_date = datetime.datetime.now()
     print('')
     with open('aggregated-data/{0}-log.txt'.format(output), 'w') as log_file:

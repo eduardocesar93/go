@@ -21,26 +21,31 @@ def rank(rank_str):
 
 
 def read_and_fill(game_instance, position, char_buffer, game_str, pointer):
-    word = char_buffer[(pointer - 2) % 3] + char_buffer[(pointer - 1) % 3] + char_buffer[pointer]
+    word = char_buffer[(pointer - 2) % 3] + char_buffer[(pointer - 1) % 3] +\
+        char_buffer[pointer]
     if word == ';B[':
         if game_str[position + 1] != ']':
-            game_instance.positions.append(['b', ord(game_str[position + 1]) - ord('a'),
-                                            ord(game_str[position + 2]) - ord('a')])
+            game_instance.positions.\
+                append(['b', ord(game_str[position + 1]) - ord('a'),
+                        ord(game_str[position + 2]) - ord('a')])
     elif word == ';W[':
         if game_str[position + 1] != ']':
-            game_instance.positions.append(['w', ord(game_str[position + 1]) - ord('a'),
-                                            ord(game_str[position + 2]) - ord('a')])
+            game_instance.positions.\
+                append(['w', ord(game_str[position + 1]) - ord('a'),
+                        ord(game_str[position + 2]) - ord('a')])
     elif word == 'AB[':
         initial_position = position
         while game_str[initial_position] == '[':
-            game_instance.positions.append(['b', ord(game_str[initial_position + 1]) - ord('a'),
-                                            ord(game_str[initial_position + 2]) - ord('a')])
+            game_instance.positions.\
+                append(['b', ord(game_str[initial_position + 1]) - ord('a'),
+                        ord(game_str[initial_position + 2]) - ord('a')])
             initial_position += 4
     elif word == 'AW[':
         initial_position = position
         while game_str[initial_position] == '[':
-            game_instance.positions.append(['b', ord(game_str[initial_position + 1]) - ord('a'),
-                                            ord(game_str[initial_position + 2]) - ord('a')])
+            game_instance.positions.\
+                append(['b', ord(game_str[initial_position + 1]) - ord('a'),
+                        ord(game_str[initial_position + 2]) - ord('a')])
             initial_position += 4
     elif word in ['SZ[', 'KM[', 'WR[', 'BR[', 'HA[', 'RE[']:
         limit_position = position + 2
@@ -102,14 +107,17 @@ def is_valid(game_instance, filters):
     elif len(game_instance.positions) > filters['positions']['max'] or \
             len(game_instance.positions) < filters['positions']['min']:
         game_instance.valid = False
-    elif game_instance.white_ranking not in filters['rank'] or game_instance.black_ranking not in filters['rank']:
-        game_instance.valid = False
+    elif game_instance.white_ranking not in filters['rank'] or\
+            game_instance.black_ranking not in filters['rank']:
+            game_instance.valid = False
     elif game_instance.result not in filters['result']:
+            game_instance.valid = False
+    elif game_instance.komi > filters['komi']['max'] or\
+            game_instance.komi < filters['komi']['min']:
         game_instance.valid = False
-    elif game_instance.komi > filters['komi']['max'] or game_instance.komi < filters['komi']['min']:
-        game_instance.valid = False
-    elif game_instance.handicap > filters['handicap']['max'] or game_instance.handicap < filters['handicap']['min']:
-        game_instance.valid = False
+    elif game_instance.handicap > filters['handicap']['max'] or\
+            game_instance.handicap < filters['handicap']['min']:
+            game_instance.valid = False
     return game_instance.valid
 
 
@@ -149,9 +157,11 @@ def process_value(matrix):
 
 
 def metric_base_3(matrix):
-    return matrix[0][0] * 3 ** 0 + matrix[0][1] * 3 ** 1 + matrix[0][2] * 3 ** 2 +\
-           matrix[1][0] * 3 ** 3 + matrix[1][1] * 3 ** 4 + matrix[1][2] * 3 ** 5 +\
-           matrix[2][0] * 3 ** 6 + matrix[2][1] * 3 ** 7 + matrix[2][2] * 3 ** 8
+    return matrix[0][0] * 3 ** 0 + matrix[0][1] * 3 ** 1 +\
+           matrix[0][2] * 3 ** 2 + matrix[1][0] * 3 ** 3 +\
+           matrix[1][1] * 3 ** 4 + matrix[1][2] * 3 ** 5 +\
+           matrix[2][0] * 3 ** 6 + matrix[2][1] * 3 ** 7 +\
+           matrix[2][2] * 3 ** 8
 
 
 def rotate(matrix):
