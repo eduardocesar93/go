@@ -113,6 +113,8 @@ def run(input_dir, output):
                       [i[1] for i in matrix_values]],
                       results_dir, 'Positions', 'Position',
                       'Frequency', 30, 20, linear_regression=False, log=True)
+    plot.save_matrix_csv(stats.transition_matrix, results_dir,
+                         "Original Transition Matrix", labels=False)
     stats.transition_matrix = utils.clean_matrix(stats.transition_matrix,
                                                  valid_positions)
     plot.save_matrix_csv(stats.transition_matrix, results_dir,

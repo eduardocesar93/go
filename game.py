@@ -20,12 +20,15 @@ class Game:
         positions = ''
         for pos_index in range(len(self.positions)):
             current_position = self.positions[pos_index]
-            current_position_str = '{0}-{1}-{2}'.format(current_position[0], current_position[1], current_position[2])
+            current_position_str = '{0}-{1}-{2}'.format(current_position[0],
+                                                        current_position[1],
+                                                        current_position[2])
             if pos_index != len(self.positions) - 1:
                 current_position_str += '.'
             positions += current_position_str
-        return [self.black_ranking, self.white_ranking, self.result, self.valid,
-                self.komi, self.size, self.handicap, positions]
+        return [self.black_ranking, self.white_ranking, self.result,
+                self.valid, self.komi, self.size, self.handicap,
+                positions]
 
     @staticmethod
     def row_to_game(row):
@@ -42,7 +45,9 @@ class Game:
         for current_position_str in positions:
             current_position = current_position_str.split('-')
             if len(current_position) == 3:
-                game.positions.append([current_position[0], int(current_position[1]), int(current_position[2])])
+                game.positions.append([current_position[0],
+                                       int(current_position[1]),
+                                       int(current_position[2])])
         game.states = list()
         game.states.append([])
         for i in range(19):
@@ -52,7 +57,8 @@ class Game:
     def get_next_position(self, pos):
         next_position = self.states[len(self.states) - 1]
         number = 0
-        matrix_position = utils.matrix_value(self.states[len(self.states) - 1], pos)
+        matrix_position = utils.matrix_value(self.states[len(self.states) - 1],
+                                             pos)
         if pos[0] == 'b':
             number = 1
         elif pos[0] == 'w':
@@ -89,7 +95,8 @@ class Stats:
                 self.times_capture[position - self.last_capture] += 1
                 self.last_capture = position
         if self.last_position_matrix != -1 and matrix_value != -1:
-            self.transition_matrix[self.last_position_matrix][matrix_value] += 1
+            self.transition_matrix[self.last_position_matrix][
+                matrix_value] += 1
         self.last_position_matrix = matrix_value
         if matrix_value != -1:
             self.matrix_values[matrix_value] += 1
@@ -236,4 +243,3 @@ def nesting(matrix, lim):
         for j in range(lim):
             average_nesting += nesting_two(matrix[i], matrix[j], lim)
     return average_nesting / (lim * lim)
-

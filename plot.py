@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import csv
 import math
-import numpy as np
+import numpy as np  # noqa
 from scipy import stats
 
 
@@ -51,7 +51,7 @@ def colormap(data, directory, output_name, x_label, y_label,
     fig.set_size_inches(width, height)
     percentile_max = 100
     if percentile:
-        percentile_max = percentile
+        percentile_max = percentile  # noqa
     # max_value = np.percentile(data, percentile_max)
     ax.set(xlabel=x_label, ylabel=y_label, title=output_name)
     # mesh = ax.imshow(data, cmap='rainbow', vmin=0, vmax=max_value)

@@ -39,7 +39,8 @@ def run(input_dir, output):
                     writer.writerow(game_instance.to_row())
                     total_valid += 1
                 index += 1
-                print_progress_bar(index, total_files, prefix='Pre-Processing:',
+                print_progress_bar(index, total_files,
+                                   prefix='Pre-Processing:',
                                    suffix='Complete', length=40)
     final_date = datetime.datetime.now()
     print('')
