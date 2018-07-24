@@ -9,7 +9,10 @@ def rank(rank_str):
     if len(rank_str) == 0:
         return -1
     category = rank_str[-1]
-    number_rank = int(rank_str[0:-1])
+    try:
+        number_rank = int(rank_str[0:-1])
+    except Exception:
+        number_rank = 0
     if category == 'k' or category == 'K':
         return 31 - number_rank
     elif category == 'd' or category == 'D':

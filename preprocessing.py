@@ -33,12 +33,15 @@ def run(input_dir, output):
         writer = csv.writer(csv_file, lineterminator='\n')
         for file_path in list_paths:
             with open(file_path, 'r') as f:
-                game_str = f.read()
-                game_instance = utils.convert_game(game_str, FILTERS)
-                if game_instance.valid and game_instance:
-                    writer.writerow(game_instance.to_row())
-                    total_valid += 1
-                index += 1
+                try:
+                    game_str = f.read()
+                    game_instance = utils.convert_game(game_str, FILTERS)
+                    if game_instance.valid and game_instance:
+                        writer.writerow(game_instance.to_row())
+                        total_valid += 1
+                    index += 1
+                except Exception:
+                    pass
                 print_progress_bar(index, total_files,
                                    prefix='Pre-Processing:',
                                    suffix='Complete', length=40)
